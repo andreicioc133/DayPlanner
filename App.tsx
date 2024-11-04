@@ -9,18 +9,9 @@ import React from 'react';
 import type {PropsWithChildren} from 'react';
 import Store from './src/Store';
 import MainTheme from './src/MainTheme';
-import DrawerNavigation from './src/Components/DrawerNavigation';
 import MainStack from './src/Components/MainStack';
 import {PaperProvider} from 'react-native-paper';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 type SectionProps = PropsWithChildren<{
   title: string;

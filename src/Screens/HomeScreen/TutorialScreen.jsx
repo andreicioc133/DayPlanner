@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground, Text} from 'react-native';
 import Header from '../../Components/Header';
 import FloatingButton from '../../Components/FloatingButton';
 import HomeScreenPlansContainer from '../../Components/HomeScreenPlansContainer';
 import backgroundImage from '../../static/background.png';
 
-const HomeScreen = () => {
+const TutorialScreen = () => {
   return (
     <>
       <View style={styles.container}>
@@ -14,7 +14,9 @@ const HomeScreen = () => {
           resizeMode="cover"
           style={styles?.image}>
           <Header />
-          <HomeScreenPlansContainer />
+          <View>
+            <Text>asd</Text>
+          </View>
           <FloatingButton />
         </ImageBackground>
       </View>
@@ -43,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default TutorialScreen;

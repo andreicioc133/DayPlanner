@@ -5,6 +5,8 @@ export const AppContext = createContext({});
 function Store(props) {
   const [lightTheme, setLightTheme] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
+  const [isNewPlanAdded, setIsNewPlanAdded] = useState(false);
   return (
     <AppContext.Provider
       value={{
@@ -12,6 +14,10 @@ function Store(props) {
         setLightTheme,
         selectedDate,
         setSelectedDate,
+        isTaskModalVisible,
+        setIsTaskModalVisible,
+        isNewPlanAdded,
+        setIsNewPlanAdded,
       }}>
       {props.children}
     </AppContext.Provider>

@@ -1,13 +1,16 @@
 export const COLORS = {
-  primaryColor: '#17153B',
+  primaryColor: '#2E236C',
   secondaryColor: '#2E236C',
   tertiaryColor: '#433D8B',
   fourthColor: '#C8ACD6',
   white: '#ffffff',
   black: '#000000',
   validGreen: '#23DC3D',
-  lightGrey: '#d3d3d3',
+  lightGrey: '#D3D3D3',
+  lightGreyRGBA: 'rgba(211, 211, 211, 0.5)',
 };
+
+export const COLORS_SECONDARY = {};
 
 export const FONT_SIZES = {
   h1: 36,
@@ -21,6 +24,6 @@ export const ELEMENTS_DIMENSIONS = {
 };
 
 export const ICON_SIZES = {
-  headerIcon: 30,
+  headerIcon: 36,
   buttonIcon: 26,
 };

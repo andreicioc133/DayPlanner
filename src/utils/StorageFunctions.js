@@ -31,7 +31,6 @@ export const getData = async key => {
 export const getObjectData = async key => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    console.log('json object value: ', jsonValue);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
     console.log('Error get object data in async storage: ', err);
@@ -55,8 +54,15 @@ export const getAllKeys = async () => {
   } catch (err) {
     console.log('Error retrieving all keys: ', err);
   }
-  console.log('keys in func: ', keys);
   return keys;
+};
+
+export const removeValue = async key => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    console.log('remove error: ', e);
+  }
 };
 
 export const clearAllStorage = async () => {
@@ -67,4 +73,14 @@ export const clearAllStorage = async () => {
   }
 
   console.log('Done clearing storage.');
+};
+
+export const removeMultipleValues = async keys => {
+  try {
+    await AsyncStorage.multiRemove(keys);
+  } catch (e) {
+    console.log('Error multi remove: ', e);
+  }
+
+  console.log(`Done removing keys: ${keys}`);
 };

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import uuid from 'react-native-uuid';
 
 export const addMinutesToDate = (date, value) => {
   const endTime = moment(date).add(value, 'minutes');
@@ -11,5 +12,6 @@ export const formatToLocalTime = date => {
 };
 
 export const createKeyFromDateObject = dateObj => {
-  return dateObj.toString();
+  const key = dateObj.toString() + ' ' + uuid.v4();
+  return key;
 };

@@ -11,7 +11,7 @@ const AddTaskButton = ({onPress}) => {
         <Text style={styles.text}>Add New Task</Text>
         <Icon
           source="plus"
-          color={COLORS.white}
+          color={COLORS.lightGrey}
           size={ICON_SIZES.buttonIcon}
           style={{flex: 1}}
         />
@@ -26,10 +26,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: COLORS.tertiaryColor,
-    borderWidth: 1,
-    borderColor: COLORS.white,
-    marginTop: 28,
+    borderWidth: 2,
+    borderColor: COLORS.lightGrey,
+    marginTop: 15,
+    marginBottom: 10,
     borderRadius: 50,
     height: 50,
     width: '95%',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    color: COLORS.white,
+    color: COLORS.lightGrey,
     paddingLeft: 10,
   },
 });

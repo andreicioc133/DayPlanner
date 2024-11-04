@@ -16,10 +16,7 @@ const Header = () => {
   const [openPicker, setOpenPicker] = useState(false);
 
   const {selectedDate, setSelectedDate} = useAppContext();
-  useEffect(() => {
-    console.log('date: ', date);
-    console.log('selected date: ', selectedDate);
-  }, [date]);
+
   return (
     <>
       <View style={styles?.container}>
@@ -42,13 +39,14 @@ const Header = () => {
         <View style={styles.buttonContainer}>
           <IconButton
             icon="format-align-justify"
-            iconColor={theme.colors.white}
+            iconColor={COLORS.lightGrey}
             borderless={true}
             size={ICON_SIZES?.headerIcon}
             mode="outlined"
-            containerColor={theme.colors.tertiaryColor}
             rippleColor="rgba(0, 0, 0, .32)"
-            style={{borderColor: theme.colors.secondaryColor}}
+            style={{
+              borderWidth: 0,
+            }}
             onPress={() => navigation.toggleDrawer()}
           />
         </View>
@@ -57,7 +55,7 @@ const Header = () => {
             mode="contained"
             onPress={() => setOpenPicker(true)}
             style={styles.calendarButton}>
-            {moment(date).format('L')}
+            <Text style={styles.text}>{moment(date).format('L')}</Text>
           </Button>
         </View>
         <View style={styles.textContainer}></View>
@@ -72,13 +70,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: COLORS?.white,
-    // height: ELEMENTS_DIMENSIONS.headerHeight,
+    borderBottomColor: COLORS?.lightGrey,
+    paddingBottom: 4,
+    paddingTop: 14,
     width: '100%',
   },
   text: {
-    fontSize: FONT_SIZES.h2,
-    color: COLORS.white,
+    color: COLORS.primaryColor,
   },
   textContainer: {
     flex: 1,
@@ -92,7 +90,8 @@ const styles = StyleSheet.create({
   },
   calendarButton: {
     width: 200,
-    backgroundColor: COLORS.tertiaryColor,
+    borderWidth: 1,
+    backgroundColor: COLORS.lightGrey,
   },
 });
 
