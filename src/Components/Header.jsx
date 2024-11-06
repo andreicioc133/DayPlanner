@@ -1,21 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Text} from 'react-native-paper';
 import {View, StyleSheet} from 'react-native';
-import {COLORS, FONT_SIZES, ICON_SIZES} from '../utils/constants';
+import {COLORS, ICON_SIZES} from '../utils/constants';
 import {IconButton} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import {useTheme, Modal, Portal} from 'react-native-paper';
+import {Portal} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {useAppContext} from '../Store';
+import DeviceInfo from 'react-native-device-info';
+
+const isNotch = DeviceInfo.hasNotch();
 
 const Header = () => {
-  const theme = useTheme();
   const navigation = useNavigation();
   const [date, setDate] = useState(new Date());
   const [openPicker, setOpenPicker] = useState(false);
 
-  const {selectedDate, setSelectedDate} = useAppContext();
+  const {setSelectedDate} = useAppContext();
 
   return (
     <>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS?.lightGrey,
     paddingBottom: 4,
-    paddingTop: 14,
+    paddingTop: isNotch === true ? '10%' : '5%',
     width: '100%',
   },
   text: {

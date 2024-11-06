@@ -1,11 +1,5 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollViewComponent,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {IconButton, Text} from 'react-native-paper';
 import {COLORS, FONT_SIZES} from '../utils/constants';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -61,9 +55,7 @@ const HomeScreenPlansContainer = () => {
 
           if (formattedDate === formattedSelectedDate) {
             const res = await getObjectData(element);
-            // if (!plans.some(item => item?.title === res?.title)) {
             filteredPlans.push(res);
-            // }
           }
         }),
       );
@@ -78,11 +70,9 @@ const HomeScreenPlansContainer = () => {
     );
 
     setPlans(filteredPlans);
-    console.log('plans asd: ', filteredPlans);
   };
 
   const onTaskDelete = async key => {
-    console.log('key removed: ', key);
     Alert.alert('Delete task', 'Are you sure you want to delete this task?', [
       {
         text: 'Cancel',
@@ -152,29 +142,40 @@ const HomeScreenPlansContainer = () => {
             onPress={() => deleteAllSelectedDateTasks()}
           />
         </View>
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles?.ScrollViewContentContainer}>
-          {plans.map(plan => {
-            return (
-              <TaskCard
-                key={uuid.v4()}
-                title={plan?.title}
-                description={plan?.description}
-                startTime={formatToLocalTime(plan?.startTime)}
-                endTime={formatToLocalTime(plan?.endTime)}
-                taskDate={plan?.taskDate}
-                storageKey={plan?.key}
-                onTaskDelete={onTaskDelete}
-                isTaskAllDay={plan?.isAllDay}
-                hasNoEndTime={plan?.hasNoEndTime}
-              />
-            );
-          })}
-        </ScrollView>
+        {plans?.length > 0 ? (
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles?.ScrollViewContentContainer}>
+            {plans.map(plan => {
+              return (
+                <TaskCard
+                  key={uuid.v4()}
+                  title={plan?.title}
+                  description={plan?.description}
+                  startTime={formatToLocalTime(plan?.startTime)}
+                  endTime={formatToLocalTime(plan?.endTime)}
+                  taskDate={plan?.taskDate}
+                  storageKey={plan?.key}
+                  onTaskDelete={onTaskDelete}
+                  isTaskAllDay={plan?.isAllDay}
+                  hasNoEndTime={plan?.hasNoEndTime}
+                />
+              );
+            })}
+          </ScrollView>
+        ) : (
+          <>
+            <View style={styles?.textView}>
+              <Text style={{...styles?.headerText, textAlign: 'center'}}>
+                Press 'Add new task' button to add a new plan!
+              </Text>
+            </View>
+          </>
+        )}
+
         <AddTaskButton onPress={() => setIsTaskModalVisible(true)} />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => clearAllStorage()}
           style={{
             marginTop: 4,
@@ -183,7 +184,8 @@ const HomeScreenPlansContainer = () => {
             backgroundColor: 'white',
           }}>
           <Text>clear storage</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
         <AddTaskModal
           isTaskModalVisible={isTaskModalVisible}
           setIsTaskModalVisible={setIsTaskModalVisible}
@@ -212,8 +214,9 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.35,
     shadowRadius: 3,
-    height: '72.5%',
+    height: '70%',
     width: '95%',
+    zIndex: 1,
   },
   scrollView: {
     width: '100%',
@@ -226,6 +229,7 @@ const styles = StyleSheet.create({
     minHeight: '80%',
     paddingBottom: 16,
   },
+  textView: {flex: 1, justifyContent: 'center'},
   header: {
     display: 'flex',
     flexDirection: 'row',

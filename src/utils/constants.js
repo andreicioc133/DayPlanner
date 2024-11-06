@@ -2,7 +2,7 @@ export const COLORS = {
   primaryColor: '#2E236C',
   secondaryColor: '#2E236C',
   tertiaryColor: '#433D8B',
-  fourthColor: '#C8ACD6',
+  fourthColor: '#cb6ce6',
   white: '#ffffff',
   black: '#000000',
   validGreen: '#23DC3D',

@@ -1,12 +1,10 @@
 import * as React from 'react';
-import {FAB, Portal, PaperProvider} from 'react-native-paper';
-import {useTheme} from 'react-native-paper';
+import {FAB, Portal} from 'react-native-paper';
 import {COLORS} from '../utils/constants';
 import {useAppContext} from '../Store';
 import {Alert} from 'react-native';
 
 const FloatingButton = () => {
-  const theme = useTheme();
   const [state, setState] = React.useState({open: false});
 
   const {setIsTaskModalVisible} = useAppContext();
@@ -24,9 +22,9 @@ const FloatingButton = () => {
           backgroundColor: COLORS.lightGrey,
           borderRadius: 50,
         }}
+        backdropColor={COLORS?.lightGrey}
         color={COLORS.primaryColor}
         icon={open ? 'minus' : 'plus'}
-        // backdropColor="transparent"
         actions={[
           {
             icon: 'plus',
@@ -50,17 +48,6 @@ const FloatingButton = () => {
             labelTextColor: COLORS.primaryColor,
             onPress: () => Alert.alert('Feature is coming soon!'),
           },
-          // {
-          //   icon: 'bell',
-          //   label: 'Remind',
-          //   color: theme.colors.white,
-          //   style: {
-          //     backgroundColor: COLORS.tertiaryColor,
-          //     borderRadius: 50,
-          //   },
-          //   labelTextColor: theme.colors.white,
-          //   onPress: () => console.log('Pressed notifications'),
-          // },
         ]}
         onStateChange={onStateChange}
         onPress={() => {

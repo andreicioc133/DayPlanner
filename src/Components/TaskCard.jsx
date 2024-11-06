@@ -55,33 +55,24 @@ const TaskCard = ({
               ...styles.buttonContainer,
               borderColor: isChecked ? COLORS.validGreen : COLORS.lightGrey,
             }}>
-            {/* <IconButton
-            icon="pencil"
-            iconColor={COLORS.white}
-            size={ICON_SIZES?.buttonIcon}
-            onPress={() => console.log('Pressed')}
-          /> */}
             <IconButton
               icon="delete"
               iconColor={COLORS.lightGrey}
               size={ICON_SIZES?.buttonIcon}
-              // style={{paddingLeft: 12}}
               onPress={async () => await onTaskDelete(storageKey)}
             />
             <IconButton
               icon={isExpanded ? 'arrow-up-thick' : 'arrow-down-thick'}
               iconColor={COLORS.lightGrey}
               size={ICON_SIZES?.buttonIcon}
-              // style={{paddingLeft: 12}}
               onPress={() => setIsExpanded(!isExpanded)}
             />
-            {/* <IconButton
-            icon={!isChecked ? 'check' : 'close'}
-            iconColor={COLORS.white}
-            size={ICON_SIZES?.buttonIcon}
-            // style={{paddingLeft: 12}}
-            onPress={() => setIsChecked(!isChecked)}
-          /> */}
+            <IconButton
+              icon={!isChecked ? 'check' : 'close'}
+              iconColor={isChecked ? COLORS.validGreen : COLORS.lightGrey}
+              size={ICON_SIZES?.buttonIcon}
+              onPress={() => setIsChecked(!isChecked)}
+            />
           </View>
         </View>
         {isExpanded ? (
@@ -134,16 +125,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   timersStyles: {
-    flex: 0.45,
+    flex: 0.4,
     display: 'flex',
     flexWrap: 'nowrap',
     justifyContent: 'center',
     paddingLeft: '2.5%',
-    // alignItems: 'center',
-    // backgroundColor: 'red',
   },
   buttonContainer: {
-    flex: 0.18,
+    flex: 0.25,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',

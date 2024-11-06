@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Icon, IconButton, Text} from 'react-native-paper';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {Icon, Text} from 'react-native-paper';
 import {COLORS, ICON_SIZES} from '../utils/constants';
 import {TouchableOpacity} from 'react-native';
 

@@ -38,11 +38,10 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
   const [selectedPeriod, setSelectedPeriod] = useState(null);
 
   //task states
-  const [task, setTask] = useState({});
   const [isTaskAllDay, setIsTaskAllDay] = useState(true);
   const [noEndTime, setNoEndTime] = useState(false);
 
-  const dateIn30Days = moment(new Date()).add(30, 'days');
+  const dateIn180Days = moment(new Date()).add(180, 'days');
 
   //validation states
   const [validationError, setValidationError] = useState(false);
@@ -83,7 +82,7 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
   const tabButtons = [
     {
       id: 0,
-      text: 'Period',
+      text: 'Interval',
     },
     {
       id: 1,
@@ -156,7 +155,6 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
 
     setValidationError(false);
 
-    setTask(taskData);
     setIsTaskModalVisible(false);
 
     await setObjectData(key, taskData);
@@ -176,15 +174,10 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
     setStartTime(formatStartTimeWithDate(new Date()));
     const endPeriod = addMinutesToDate(date, periodElement?.value);
     setEndTime(formatEndTimeWithDate(endPeriod));
-    // console.log('period index: ', periodElement?.id);
-    // if (selectedPeriod === periodElement?.id) {
-    //   setSelectedPeriod(null);
-    // }
   };
 
   const noEndTimeForTask = () => {
     setNoEndTime(!noEndTime);
-    console.log('no end time: ', noEndTime);
   };
 
   return (
@@ -250,7 +243,7 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                   mode="date"
                   open={openTaskDatePicker}
                   date={taskDate}
-                  maximumDate={new Date(dateIn30Days)}
+                  maximumDate={new Date(dateIn180Days)}
                   minimumDate={new Date()}
                   onConfirm={date => {
                     setOpenTaskDatePicker(false);
@@ -268,7 +261,7 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                   <>
                     <View>
                       <Text style={{color: COLORS?.lightGrey}}>
-                        *Default period is 1 minute!
+                        *Default interval is 1 minute!
                       </Text>
                     </View>
                   </>
@@ -280,7 +273,6 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                       key={btn?.id}
                       style={{
                         ...styles.tabBtn,
-                        // borderBottomColor: COLORS?.lightGrey,
                         backgroundColor:
                           selectedTab === btn?.id
                             ? COLORS.lightGreyRGBA
@@ -371,7 +363,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                           setOpenEndTimePicker(false);
                         }}
                       />
-                      <Text style={styles.headerText}>
+                      <Text
+                        style={{
+                          ...styles.headerText,
+                          paddingTop: 0,
+                          paddingBottom: '5%',
+                        }}>
                         Choose Start & End Time
                       </Text>
                       <Button
@@ -489,7 +486,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // height: ELEMENTS_DIMENSIONS.headerHeight,
     width: '100%',
   },
   image: {
@@ -497,11 +493,8 @@ const styles = StyleSheet.create({
     flex: '1',
     alignItems: 'center',
     justifyContent: 'center',
-    // height: ELEMENTS_DIMENSIONS.headerHeight,
     width: '100%',
     borderRadius: 20,
-    // paddingLeft: 6,
-    // paddingRight: 6,
   },
   innerImageContainer: {
     display: 'flex',
@@ -524,7 +517,7 @@ const styles = StyleSheet.create({
   },
   allDayContainer: {
     display: 'flex',
-    justifyContent: 'center',
+    paddingTop: '5%',
   },
   text: {
     fontSize: FONT_SIZES?.text,
@@ -578,7 +571,6 @@ const styles = StyleSheet.create({
   tabBtn: {
     marginTop: 6,
     marginBottom: 6,
-    // width: '50%',
     borderRadius: 50,
     borderBottomWidth: 1,
   },
@@ -595,10 +587,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     borderColor: COLORS.lightGrey,
-    // shadowColor: COLORS.lightGrey,
-    // shadowOffset: {width: 0, height: 3},
-    // shadowOpacity: 0.35,
-    // shadowRadius: 3,
     width: '40%',
   },
   confirmButtonsContainer: {
@@ -609,8 +597,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderTopWidth: 1,
     borderColor: COLORS.lightGrey,
-    // backgroundColor: 'red',
-    // height: '12%',
   },
   button: {
     width: '30%',
