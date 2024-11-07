@@ -71,6 +71,18 @@ export default function DrawerNavigation() {
             Tasks older than 3 months will be automatically deleted to keep the
             application optimized and lightweight.
           </Text>
+
+          <Text
+            style={{
+              color: COLORS?.lightGrey,
+              fontSize: FONT_SIZES?.text,
+              textAlign: 'left',
+              paddingLeft: '3%',
+              paddingRight: '3%',
+              marginBottom: '10%',
+            }}>
+            Thank you for your understanding!
+          </Text>
           <Text
             style={{
               color: COLORS?.lightGrey,
@@ -79,7 +91,7 @@ export default function DrawerNavigation() {
               paddingLeft: '3%',
               paddingRight: '3%',
             }}>
-            Thank you for your understanding!
+            Version 1.0.0
           </Text>
         </View>
       </>
