@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {IconButton, Text} from 'react-native-paper';
 import {COLORS, ICON_SIZES} from '../utils/constants';
 import {TouchableOpacity} from 'react-native';
 import uuid from 'react-native-uuid';
+import {getAllKeys, setObjectData} from '../utils/StorageFunctions';
 
 const TaskCard = ({
   title,
@@ -15,9 +16,26 @@ const TaskCard = ({
   onTaskDelete,
   isTaskAllDay,
   hasNoEndTime,
+  plan,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(plan?.isChecked);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const onCheck = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const updatePlan = async () => {
+    const keys = await getAllKeys();
+    if (keys.includes(storageKey)) {
+      let newplan = {...plan, isChecked: isChecked};
+      await setObjectData(storageKey, newplan);
+    }
+  };
+
+  useEffect(() => {
+    updatePlan();
+  }, [isChecked]);
 
   return (
     <>
@@ -31,7 +49,7 @@ const TaskCard = ({
           borderLeftWidth: 1,
           borderRightWidth: 1,
         }}
-        onPress={() => setIsChecked(!isChecked)}>
+        onPress={() => onCheck()}>
         <View style={styles?.rowContainer}>
           <Text
             style={{
@@ -71,7 +89,7 @@ const TaskCard = ({
               icon={!isChecked ? 'check' : 'close'}
               iconColor={isChecked ? COLORS.validGreen : COLORS.lightGrey}
               size={ICON_SIZES?.buttonIcon}
-              onPress={() => setIsChecked(!isChecked)}
+              onPress={() => onCheck()}
             />
           </View>
         </View>

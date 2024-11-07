@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../Screens/HomeScreen/HomeScreen';
 import TutorialScreen from '../Screens/HomeScreen/TutorialScreen';
+import SupportScreen from '../Screens/HomeScreen/SupportScreen';
 import {COLORS, FONT_SIZES} from '../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -16,6 +17,7 @@ export default function DrawerNavigation() {
   const buttonsData = [
     {id: 0, title: 'Home', route: 'Home'},
     {id: 1, title: 'How to', route: 'How to'},
+    {id: 2, title: 'Support', route: 'Support'},
   ];
 
   const navigateToScreen = el => {
@@ -99,6 +101,7 @@ export default function DrawerNavigation() {
       drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Home" component={HomeScreen} options={{}} />
       <Drawer.Screen name="How to" component={TutorialScreen} options={{}} />
+      <Drawer.Screen name="Support" component={SupportScreen} options={{}} />
     </Drawer.Navigator>
   );
 }

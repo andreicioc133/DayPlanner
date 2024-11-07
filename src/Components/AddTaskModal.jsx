@@ -139,6 +139,7 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
       key: key,
       isAllDay: isTaskAllDay,
       hasNoEndTime: noEndTime,
+      isChecked: false,
     };
 
     if (title.length <= 0) {

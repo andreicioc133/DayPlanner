@@ -159,6 +159,7 @@ const HomeScreenPlansContainer = () => {
                   onTaskDelete={onTaskDelete}
                   isTaskAllDay={plan?.isAllDay}
                   hasNoEndTime={plan?.hasNoEndTime}
+                  plan={plan}
                 />
               );
             })}
