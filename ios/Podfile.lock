@@ -1123,6 +1123,11 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
+  - RNNotifee (9.1.2):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 9.1.2)
+  - RNNotifee/NotifeeCore (9.1.2):
+    - React-Core
   - RNReanimated (3.14.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1214,6 +1219,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1340,6 +1346,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -1412,6 +1420,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNDeviceInfo: 6192a9c9167e256803e554038b22b3b2b40163dc
   RNGestureHandler: 67d3f1f69d4d0c98d6e83f4229e3bbf997d1dc72
+  RNNotifee: bc20a5e3d581f629db988075944fdd944d363dfe
   RNReanimated: f1ce27e7d23e6f941024b862ad76a7fdae93dea9
   RNScreens: e842cdccb23c0a084bd6307f6fa83fd1c1738029
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17

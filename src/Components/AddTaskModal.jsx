@@ -13,6 +13,7 @@ import moment from 'moment';
 import {addMinutesToDate, createKeyFromDateObject} from '../utils/Helpers';
 import {setObjectData} from '../utils/StorageFunctions';
 import backgroundImage from '../static/background.png';
+import {createTriggerNotification} from '../utils/Notifications';
 
 const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
   const {height} = useWindowDimensions();
@@ -160,6 +161,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
 
     await setObjectData(key, taskData);
 
+    createTriggerNotification(
+      formatStartTimeWithDate(startTime),
+      isTaskAllDay,
+      title,
+    );
+
     closeModal();
   };
 
@@ -179,6 +186,7 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
 
   const noEndTimeForTask = () => {
     setNoEndTime(!noEndTime);
+    setEndTime(new Date(moment(formatEndTimeWithDate(endTime)).endOf('day')));
   };
 
   return (

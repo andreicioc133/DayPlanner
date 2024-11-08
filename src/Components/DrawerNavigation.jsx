@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, version} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../Screens/HomeScreen/HomeScreen';
@@ -7,6 +7,7 @@ import SupportScreen from '../Screens/HomeScreen/SupportScreen';
 import {COLORS, FONT_SIZES} from '../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {version as app_version} from './../../package.json';
 
 const Drawer = createDrawerNavigator();
 
@@ -91,7 +92,7 @@ export default function DrawerNavigation() {
               paddingLeft: '3%',
               paddingRight: '3%',
             }}>
-            Version 1.0.0
+            Version {app_version}
           </Text>
         </View>
       </>

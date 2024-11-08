@@ -5,7 +5,8 @@
  * @format
  */
 import './gesture-handler';
-import React from 'react';
+import React, {useEffect} from 'react';
+import notifee from '@notifee/react-native';
 import type {PropsWithChildren} from 'react';
 import Store from './src/Store';
 import MainTheme from './src/MainTheme';
@@ -18,6 +19,14 @@ type SectionProps = PropsWithChildren<{
 }>;
 
 function App(): React.JSX.Element {
+  const getNotificationPermissions = async () => {
+    await notifee.requestPermission();
+  };
+
+  useEffect(() => {
+    getNotificationPermissions();
+  }, []);
+
   return (
     <>
       <PaperProvider>
