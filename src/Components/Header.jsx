@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Text} from 'react-native-paper';
-import {View, StyleSheet} from 'react-native';
-import {COLORS, ICON_SIZES} from '../utils/constants';
+import {View, StyleSheet, Platform} from 'react-native';
+import {COLORS, ICON_SIZES, FONT_SIZES} from '../utils/constants';
 import {IconButton} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Portal} from 'react-native-paper';
@@ -11,6 +11,18 @@ import {useAppContext} from '../Store';
 import DeviceInfo from 'react-native-device-info';
 
 const isNotch = DeviceInfo.hasNotch();
+
+const getPaddingTop = () => {
+  if (isNotch) {
+    if (Platform?.isPad) {
+      return '3%';
+    } else {
+      return '10%';
+    }
+  }
+  if (Platform?.isPad) return '2%';
+  return '5%';
+};
 
 const Header = () => {
   const navigation = useNavigation();
@@ -56,6 +68,12 @@ const Header = () => {
           <Button
             mode="contained"
             onPress={() => setOpenPicker(true)}
+            labelStyle={{
+              fontSize: FONT_SIZES?.text,
+              margin: Platform?.isPad ? 0 : 0,
+              paddingTop: Platform?.isPad ? 5 : 0,
+              paddingBottom: Platform?.isPad ? 5 : 0,
+            }}
             style={styles.calendarButton}>
             <Text style={styles.text}>{moment(date).format('L')}</Text>
           </Button>
@@ -74,11 +92,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS?.lightGrey,
     paddingBottom: 4,
-    paddingTop: isNotch === true ? '10%' : '5%',
+    paddingTop: getPaddingTop(),
     width: '100%',
   },
   text: {
     color: COLORS.primaryColor,
+    fontSize: FONT_SIZES?.text,
   },
   textContainer: {
     flex: 1,
@@ -94,6 +113,9 @@ const styles = StyleSheet.create({
     width: 200,
     borderWidth: 1,
     backgroundColor: COLORS.lightGrey,
+    height: Platform?.isPad ? 50 : 40,
+    justifyContent: Platform?.isPad ? 'center' : 'center',
+    borderRadius: 50,
   },
 });
 

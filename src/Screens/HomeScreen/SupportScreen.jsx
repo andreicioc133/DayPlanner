@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ImageBackground, Text} from 'react-native';
+import {View, StyleSheet, ImageBackground, Text, Platform} from 'react-native';
 import Header from '../../Components/Header';
 import backgroundImage from '../../static/background.png';
 import {COLORS, FONT_SIZES} from '../../utils/constants';
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: FONT_SIZES?.text,
     color: COLORS?.lightGrey,
-    paddingLeft: '5%',
+    paddingLeft: Platform?.isPad ? 0 : '5%',
     paddingRight: '5%',
     marginTop: '3%',
   },

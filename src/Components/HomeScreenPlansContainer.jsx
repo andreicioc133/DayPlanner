@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Platform,
+} from 'react-native';
 import {IconButton, Text} from 'react-native-paper';
 import {COLORS, FONT_SIZES} from '../utils/constants';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -138,6 +144,7 @@ const HomeScreenPlansContainer = () => {
           <IconButton
             style={styles.deleteAllTasksButton}
             iconColor={COLORS.lightGrey}
+            size={Platform.isPad ? 40 : 26}
             icon="delete"
             onPress={() => deleteAllSelectedDateTasks()}
           />
@@ -215,8 +222,8 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.35,
     shadowRadius: 3,
-    height: '70%',
-    width: '95%',
+    height: Platform?.isPad ? '75%' : '70%',
+    width: Platform?.isPad ? '85%' : '95%',
     zIndex: 1,
   },
   scrollView: {
@@ -240,6 +247,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS?.lightGrey,
     height: 50,
+    marginTop: Platform.isPad && 12,
+    marginBottom: Platform.isPad && 12,
+    paddingBottom: Platform.isPad && 12,
   },
   headerText: {
     color: COLORS.lightGrey,

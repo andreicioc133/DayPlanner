@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {Icon, Text} from 'react-native-paper';
-import {COLORS, ICON_SIZES} from '../utils/constants';
+import {COLORS, FONT_SIZES, ICON_SIZES} from '../utils/constants';
 import {TouchableOpacity} from 'react-native';
 
 const AddTaskButton = ({onPress}) => {
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: COLORS.lightGrey,
-    marginTop: 15,
-    marginBottom: 10,
+    marginTop: Platform?.isPad ? 18 : 15,
+    marginBottom: Platform?.isPad ? 18 : 10,
     borderRadius: 50,
-    height: 50,
-    width: '95%',
+    height: Platform?.isPad ? 75 : 50,
+    width: Platform?.isPad ? '50%' : '95%',
     paddingLeft: 8,
     paddingRight: 10,
   },
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: COLORS.lightGrey,
     paddingLeft: 10,
+    fontSize: FONT_SIZES?.text,
   },
 });
 

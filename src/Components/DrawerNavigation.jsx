@@ -1,5 +1,5 @@
 import React, {useState, version} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../Screens/HomeScreen/HomeScreen';
 import TutorialScreen from '../Screens/HomeScreen/TutorialScreen';
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   button: {
     display: 'flex',
     justifyContent: 'center',
-    height: 48,
+    height: Platform?.isPad ? 50 : 48,
     minWidth: '90%',
     paddingLeft: '5%',
     borderWidth: 1,
@@ -134,5 +134,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: 'bold',
     color: COLORS?.lightGrey,
+    fontSize: FONT_SIZES?.text,
   },
 });

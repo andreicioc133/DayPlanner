@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 import {IconButton, Text} from 'react-native-paper';
-import {COLORS, ICON_SIZES} from '../utils/constants';
+import {COLORS, FONT_SIZES, ICON_SIZES} from '../utils/constants';
 import {TouchableOpacity} from 'react-native';
 import uuid from 'react-native-uuid';
 import {getAllKeys, setObjectData} from '../utils/StorageFunctions';
@@ -60,7 +60,12 @@ const TaskCard = ({
             {title}
           </Text>
           <View style={styles.timersStyles}>
-            <Text style={{color: COLORS.lightGrey, textAlign: 'center'}}>
+            <Text
+              style={{
+                color: COLORS.lightGrey,
+                textAlign: 'center',
+                fontSize: FONT_SIZES?.text,
+              }}>
               {isTaskAllDay
                 ? 'All day'
                 : hasNoEndTime
@@ -119,9 +124,10 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 8,
+    marginTop: Platform?.isPad ? 16 : 8,
     borderRadius: 10,
-    minHeight: 50,
+    minHeight: Platform?.isPad ? 80 : 50,
+    justifyContent: Platform?.isPad && 'center',
     width: '99%',
     paddingLeft: 2,
     paddingRight: 2,
@@ -129,6 +135,7 @@ const styles = StyleSheet.create({
   rowContainer: {
     display: 'flex',
     flexDirection: 'row',
+    minHeight: Platform?.isPad && 80,
     justifyContent: 'center',
     alignItems: 'center',
     maxHeight: '100%',
@@ -141,6 +148,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 0.35,
     paddingLeft: 10,
+    fontSize: FONT_SIZES?.text,
   },
   timersStyles: {
     flex: 0.4,

@@ -1,3 +1,5 @@
+import {Platform} from 'react-native';
+
 export const COLORS = {
   primaryColor: '#2E236C',
   secondaryColor: '#2E236C',
@@ -13,10 +15,10 @@ export const COLORS = {
 export const COLORS_SECONDARY = {};
 
 export const FONT_SIZES = {
-  h1: 36,
-  h2: 28,
-  h3: 24,
-  text: 18,
+  h1: Platform?.isPad ? 40 : 36,
+  h2: Platform?.isPad ? 32 : 28,
+  h3: Platform?.isPad ? 28 : 24,
+  text: Platform?.isPad ? 22 : 16,
 };
 
 export const ELEMENTS_DIMENSIONS = {
@@ -24,6 +26,6 @@ export const ELEMENTS_DIMENSIONS = {
 };
 
 export const ICON_SIZES = {
-  headerIcon: 36,
-  buttonIcon: 26,
+  headerIcon: Platform?.isPad ? 50 : 36,
+  buttonIcon: Platform?.isPad ? 36 : 26,
 };

@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Alert,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import {COLORS, FONT_SIZES} from '../utils/constants';
 import {Button, Text, Modal, Portal, TextInput} from 'react-native-paper';
@@ -241,7 +242,16 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                   onChangeText={text => setDescription(text)}
                 />
                 <Button
-                  style={{...styles.periodButton, width: '60%'}}
+                  style={{
+                    ...styles.periodButton,
+                    width: Platform?.isPad ? '50%' : '60%',
+                  }}
+                  labelStyle={{
+                    fontSize: FONT_SIZES?.text,
+                    margin: Platform?.isPad ? 0 : 5,
+                    paddingTop: Platform?.isPad ? 5 : 0,
+                    paddingBottom: Platform?.isPad ? 5 : 0,
+                  }}
                   mode="outlined"
                   textColor={COLORS?.lightGrey}
                   onPress={() => setOpenTaskDatePicker(true)}>
@@ -264,12 +274,18 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                 />
                 {validationError ? (
                   <View>
-                    <Text style={{color: 'red'}}>*Please type a title!</Text>
+                    <Text style={{color: 'red', fontSize: FONT_SIZES?.text}}>
+                      *Please type a title!
+                    </Text>
                   </View>
                 ) : (
                   <>
                     <View>
-                      <Text style={{color: COLORS?.lightGrey}}>
+                      <Text
+                        style={{
+                          color: COLORS?.lightGrey,
+                          fontSize: FONT_SIZES?.text,
+                        }}>
                         *Default interval is 1 minute!
                       </Text>
                     </View>
@@ -280,6 +296,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                   {tabButtons.map(btn => (
                     <Button
                       key={btn?.id}
+                      labelStyle={{
+                        fontSize: FONT_SIZES?.text,
+                        margin: Platform?.isPad ? 0 : 5,
+                        paddingTop: Platform?.isPad ? 5 : 0,
+                        paddingBottom: Platform?.isPad ? 5 : 0,
+                      }}
                       style={{
                         ...styles.tabBtn,
                         backgroundColor:
@@ -317,6 +339,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                       {periodButtonsData.map(btn => (
                         <Button
                           key={btn?.id}
+                          labelStyle={{
+                            fontSize: FONT_SIZES?.text,
+                            margin: Platform?.isPad ? 0 : 5,
+                            paddingTop: Platform?.isPad ? 5 : 0,
+                            paddingBottom: Platform?.isPad ? 5 : 0,
+                          }}
                           style={{
                             ...styles.periodButton,
                             backgroundColor:
@@ -409,6 +437,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                           <Button
                             style={styles.timeButton}
                             mode="outlined"
+                            labelStyle={{
+                              fontSize: FONT_SIZES?.text,
+                              margin: Platform?.isPad ? 0 : 5,
+                              paddingTop: Platform?.isPad ? 5 : 0,
+                              paddingBottom: Platform?.isPad ? 5 : 0,
+                            }}
                             textColor={COLORS.lightGrey}
                             onPress={() => setOpenStartTimePicker(true)}>
                             {moment(startTime).format('LT').toString()}
@@ -434,6 +468,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                             <Text style={styles.text}>End Time:</Text>
                             <Button
                               style={styles.timeButton}
+                              labelStyle={{
+                                fontSize: FONT_SIZES?.text,
+                                margin: Platform?.isPad ? 0 : 5,
+                                paddingTop: Platform?.isPad ? 5 : 0,
+                                paddingBottom: Platform?.isPad ? 5 : 0,
+                              }}
                               mode="outlined"
                               textColor={COLORS.lightGrey}
                               onPress={() => setOpenEndTimePicker(true)}>
@@ -465,6 +505,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                     }}
                     mode="outlined"
                     textColor={COLORS.lightGrey}
+                    labelStyle={{
+                      fontSize: FONT_SIZES?.text,
+                      margin: Platform?.isPad ? 0 : 5,
+                      paddingTop: Platform?.isPad ? 5 : 0,
+                      paddingBottom: Platform?.isPad ? 5 : 0,
+                    }}
                     onPress={() => closeModal()}>
                     Cancel
                   </Button>
@@ -473,6 +519,12 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                       ...styles.button,
                       backgroundColor: COLORS.lightGreyRGBA,
                       borderWidth: 0,
+                    }}
+                    labelStyle={{
+                      fontSize: FONT_SIZES?.text,
+                      margin: Platform?.isPad ? 0 : 5,
+                      paddingTop: Platform?.isPad ? 5 : 0,
+                      paddingBottom: Platform?.isPad ? 5 : 0,
                     }}
                     mode="outlined"
                     textColor={COLORS.primaryColor}
@@ -523,6 +575,10 @@ const styles = StyleSheet.create({
   },
   noEndTimeButton: {
     borderColor: COLORS.lightGrey,
+    height: Platform?.isPad ? 50 : 40,
+    justifyContent: Platform?.isPad ? 'center' : 'center',
+    borderRadius: 50,
+    marginBottom: Platform?.isPad ? 16 : 0,
   },
   allDayContainer: {
     display: 'flex',
@@ -544,6 +600,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: 'transparent',
     color: COLORS.lightGrey,
+    fontSize: FONT_SIZES?.text,
   },
   buttonContainer: {
     display: 'flex',
@@ -578,25 +635,35 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   tabBtn: {
-    marginTop: 6,
-    marginBottom: 6,
     borderRadius: 50,
     borderBottomWidth: 1,
+    width: Platform?.isPad ? '30%' : 'auto',
+    height: Platform?.isPad ? 50 : 40,
+    justifyContent: Platform?.isPad ? 'center' : 'center',
+    borderRadius: 50,
+    marginTop: Platform?.isPad ? 16 : 6,
+    marginBottom: Platform?.isPad ? 16 : 6,
   },
   timeButton: {
-    marginTop: 12,
-    marginBottom: 12,
+    height: Platform?.isPad ? 50 : 40,
+    justifyContent: Platform?.isPad ? 'center' : 'center',
+    borderRadius: 50,
+    marginTop: Platform?.isPad ? 16 : 12,
+    marginBottom: Platform?.isPad ? 16 : 12,
     flex: 0.5,
     borderWidth: 1,
     borderColor: COLORS.lightGrey,
   },
   periodButton: {
-    marginTop: 12,
-    marginBottom: 12,
     borderWidth: 1,
     borderRadius: 50,
     borderColor: COLORS.lightGrey,
     width: '40%',
+    height: Platform?.isPad ? 50 : 40,
+    justifyContent: Platform?.isPad ? 'center' : 'center',
+    borderRadius: 50,
+    marginTop: Platform?.isPad ? 16 : 8,
+    marginBottom: Platform?.isPad ? 16 : 8,
   },
   confirmButtonsContainer: {
     display: 'flex',
@@ -609,9 +676,11 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '30%',
-
-    marginTop: 8,
-    marginBottom: 8,
+    height: Platform?.isPad ? 50 : 40,
+    justifyContent: Platform?.isPad ? 'center' : 'center',
+    borderRadius: 50,
+    marginTop: Platform?.isPad ? 16 : 8,
+    marginBottom: Platform?.isPad ? 16 : 8,
   },
 });
 

@@ -37,17 +37,6 @@ const FloatingButton = () => {
             labelTextColor: COLORS.primaryColor,
             onPress: () => setIsTaskModalVisible(true),
           },
-          {
-            icon: 'plus',
-            label: 'Add multiple tasks',
-            color: COLORS.white,
-            style: {
-              backgroundColor: COLORS.tertiaryColor,
-              borderRadius: 50,
-            },
-            labelTextColor: COLORS.primaryColor,
-            onPress: () => Alert.alert('Feature is coming soon!'),
-          },
         ]}
         onStateChange={onStateChange}
         onPress={() => {
