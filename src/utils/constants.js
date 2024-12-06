@@ -5,6 +5,7 @@ export const COLORS = {
   secondaryColor: '#2E236C',
   tertiaryColor: '#433D8B',
   fourthColor: '#cb6ce6',
+  modalBackground: '#6808A1',
   white: '#ffffff',
   black: '#000000',
   validGreen: '#23DC3D',

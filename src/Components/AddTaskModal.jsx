@@ -15,6 +15,7 @@ import {addMinutesToDate, createKeyFromDateObject} from '../utils/Helpers';
 import {setObjectData} from '../utils/StorageFunctions';
 import backgroundImage from '../static/background.png';
 import {createTriggerNotification} from '../utils/Notifications';
+import {useOrientation} from '../CustomHooks';
 
 const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
   const {height} = useWindowDimensions();
@@ -47,6 +48,8 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
 
   //validation states
   const [validationError, setValidationError] = useState(false);
+
+  const orientation = useOrientation();
 
   const periodButtonsData = [
     {
@@ -202,49 +205,327 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
               justifyContent: 'flex-start',
               alignItems: 'center',
               backgroundColor: COLORS.white,
-              width: '90%',
+              width: orientation === 'LANDSCAPE' ? '70%' : '90%',
               alignSelf: 'center',
               borderRadius: 20,
             }}>
-            <ImageBackground
+            {/* <ImageBackground
               source={backgroundImage}
               resizeMode="cover"
               style={styles?.image}
-              imageStyle={{borderRadius: 20, width: '100%'}}>
-              <View style={styles.innerImageContainer}>
-                <Text style={{...styles.headerText, fontWeight: 'bold'}}>
-                  Add task
-                </Text>
-                <TextInput
-                  mode="flat"
-                  label={<Text style={{color: COLORS.lightGrey}}>Title</Text>}
-                  placeholder={
-                    validationError === true && 'Please type a title!'
-                  }
-                  underlineColor={COLORS.lightGrey}
-                  textColor={COLORS.lightGrey}
-                  error={validationError}
-                  value={title}
-                  maxLength={20}
-                  style={styles.textInput}
-                  onChangeText={text => setTitle(text)}
-                />
+              imageStyle={{borderRadius: 20, width: '100%'}}> */}
+            <View style={styles.innerImageContainer}>
+              <Text style={{...styles.headerText, fontWeight: 'bold'}}>
+                Add task
+              </Text>
+              <TextInput
+                mode="flat"
+                label={<Text style={{color: COLORS.lightGrey}}>Title</Text>}
+                placeholder={validationError === true && 'Please type a title!'}
+                underlineColor={COLORS.lightGrey}
+                textColor={COLORS.lightGrey}
+                error={validationError}
+                value={title}
+                maxLength={20}
+                style={styles.textInput}
+                onChangeText={text => setTitle(text)}
+              />
 
-                <TextInput
-                  mode="flat"
-                  label={
-                    <Text style={{color: COLORS.lightGrey}}>Description</Text>
-                  }
-                  underlineColor={COLORS.lightGrey}
-                  textColor={COLORS.lightGrey}
-                  value={description}
-                  style={{...styles.textInput, marginTop: 8}}
-                  onChangeText={text => setDescription(text)}
-                />
+              <TextInput
+                mode="flat"
+                label={
+                  <Text style={{color: COLORS.lightGrey}}>Description</Text>
+                }
+                underlineColor={COLORS.lightGrey}
+                textColor={COLORS.lightGrey}
+                value={description}
+                style={{...styles.textInput, marginTop: 8}}
+                onChangeText={text => setDescription(text)}
+              />
+              <Button
+                style={{
+                  ...styles.periodButton,
+                  width: Platform?.isPad ? '50%' : '60%',
+                }}
+                labelStyle={{
+                  fontSize: FONT_SIZES?.text,
+                  margin: Platform?.isPad ? 0 : 5,
+                  paddingTop: Platform?.isPad ? 5 : 0,
+                  paddingBottom: Platform?.isPad ? 5 : 0,
+                }}
+                mode="outlined"
+                textColor={COLORS?.lightGrey}
+                onPress={() => setOpenTaskDatePicker(true)}>
+                {moment(taskDate).format('YYYY-MM-DD')}
+              </Button>
+              <DatePicker
+                modal
+                mode="date"
+                open={openTaskDatePicker}
+                date={taskDate}
+                maximumDate={new Date(dateIn180Days)}
+                minimumDate={new Date()}
+                onConfirm={date => {
+                  setOpenTaskDatePicker(false);
+                  setTaskDate(date);
+                }}
+                onCancel={() => {
+                  setOpenTaskDatePicker(false);
+                }}
+              />
+              {validationError ? (
+                <View>
+                  <Text style={{color: 'red', fontSize: FONT_SIZES?.text}}>
+                    *Please type a title!
+                  </Text>
+                </View>
+              ) : (
+                <>
+                  <View>
+                    <Text
+                      style={{
+                        color: COLORS?.lightGrey,
+                        fontSize: FONT_SIZES?.text,
+                      }}>
+                      *Default interval is 1 minute!
+                    </Text>
+                  </View>
+                </>
+              )}
+
+              <View style={styles?.tabButtonsContainer}>
+                {tabButtons.map(btn => (
+                  <Button
+                    key={btn?.id}
+                    labelStyle={{
+                      fontSize: FONT_SIZES?.text,
+                      margin: Platform?.isPad ? 0 : 5,
+                      paddingTop: Platform?.isPad ? 5 : 0,
+                      paddingBottom: Platform?.isPad ? 5 : 0,
+                    }}
+                    style={{
+                      ...styles.tabBtn,
+                      backgroundColor:
+                        selectedTab === btn?.id
+                          ? COLORS.lightGreyRGBA
+                          : 'transparent',
+                      borderWidth: selectedTab === btn?.id ? 0 : 1,
+                      borderColor:
+                        selectedTab === btn?.id ? '0' : COLORS.lightGrey,
+                    }}
+                    mode="text"
+                    textColor={
+                      selectedTab === btn?.id
+                        ? COLORS.primaryColor
+                        : COLORS.lightGrey
+                    }
+                    onPress={() => chooseTab(btn?.id)}>
+                    {btn?.text}
+                  </Button>
+                ))}
+              </View>
+              <View
+                style={{
+                  width: '100%',
+                  height: 1,
+                  backgroundColor: COLORS.lightGrey,
+                }}></View>
+              {selectedTab === 0 ? (
+                <>
+                  <View
+                    style={{
+                      ...styles.periodButtonContainer,
+                      height: height / 3,
+                    }}>
+                    {periodButtonsData.map(btn => (
+                      <Button
+                        key={btn?.id}
+                        labelStyle={{
+                          fontSize: FONT_SIZES?.text,
+                          margin: Platform?.isPad ? 0 : 5,
+                          paddingTop: Platform?.isPad ? 5 : 0,
+                          paddingBottom: Platform?.isPad ? 5 : 0,
+                        }}
+                        style={{
+                          ...styles.periodButton,
+                          backgroundColor:
+                            selectedPeriod === btn?.id
+                              ? COLORS?.lightGreyRGBA
+                              : 'transparent',
+                          borderColor:
+                            selectedPeriod === btn?.id
+                              ? COLORS?.lightGreyRGBA
+                              : COLORS.lightGrey,
+                        }}
+                        mode="outlined"
+                        textColor={
+                          selectedPeriod === btn?.id
+                            ? COLORS?.primaryColor
+                            : COLORS?.lightGrey
+                        }
+                        onPress={() => choosePeriod(btn)}>
+                        {btn?.text}
+                      </Button>
+                    ))}
+                  </View>
+                </>
+              ) : selectedTab === 1 ? (
+                <>
+                  <View
+                    style={{
+                      ...styles.allDayContainer,
+                      height: height / 3,
+                      paddingTop: orientation === 'LANDSCAPE' ? '1%' : '5%',
+                    }}>
+                    <DatePicker
+                      modal
+                      mode="time"
+                      open={openStartTimePicker}
+                      date={startTime}
+                      onConfirm={time => {
+                        setOpenStartTimePicker(false);
+                        setStartTime(time);
+                        setSelectedPeriod(null);
+                      }}
+                      onCancel={() => {
+                        setOpenStartTimePicker(false);
+                      }}
+                    />
+                    <DatePicker
+                      modal
+                      mode="time"
+                      open={openEndTimePicker}
+                      date={endTime}
+                      onConfirm={time => {
+                        setOpenEndTimePicker(false);
+                        setEndTime(time);
+                        setSelectedPeriod(null);
+                      }}
+                      onCancel={() => {
+                        setOpenEndTimePicker(false);
+                      }}
+                    />
+                    <Text
+                      style={{
+                        ...styles.headerText,
+                        paddingTop: 0,
+                        paddingBottom: orientation === 'LANDSCAPE' ? '0' : '5%',
+                      }}>
+                      Choose Start & End Time
+                    </Text>
+                    <Button
+                      style={{
+                        ...styles.noEndTimeButton,
+                        marginTop: orientation === 'LANDSCAPE' && 8,
+                        alignSelf: 'center',
+                        backgroundColor:
+                          noEndTime === true ? COLORS.lightGrey : 'transparent',
+                      }}
+                      mode="outlined"
+                      textColor={COLORS.lightGrey}
+                      onPress={() => noEndTimeForTask()}>
+                      <Text
+                        style={{
+                          fontSize: FONT_SIZES?.text,
+                          color:
+                            noEndTime === true
+                              ? COLORS.primaryColor
+                              : COLORS.lightGrey,
+                        }}>
+                        No end time{' '}
+                      </Text>
+                    </Button>
+                    <View style={styles.buttonContainer}>
+                      <View style={styles.startEndTimesContainer}>
+                        <Text style={styles.text}>Start Time:</Text>
+                        <Button
+                          style={styles.timeButton}
+                          mode="outlined"
+                          labelStyle={{
+                            fontSize: FONT_SIZES?.text,
+                            margin: Platform?.isPad ? 0 : 5,
+                            paddingTop: Platform?.isPad ? 5 : 0,
+                            paddingBottom: Platform?.isPad ? 5 : 0,
+                          }}
+                          textColor={COLORS.lightGrey}
+                          onPress={() => setOpenStartTimePicker(true)}>
+                          {moment(startTime).format('LT').toString()}
+                        </Button>
+                      </View>
+                      {noEndTime ? (
+                        <>
+                          <View
+                            style={{
+                              height: '30%',
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: FONT_SIZES?.text,
+                                color: COLORS?.lightGrey,
+                              }}>
+                              You cannot set the end time!
+                            </Text>
+                          </View>
+                        </>
+                      ) : (
+                        <View style={styles.startEndTimesContainer}>
+                          <Text style={styles.text}>End Time:</Text>
+                          <Button
+                            style={styles.timeButton}
+                            labelStyle={{
+                              fontSize: FONT_SIZES?.text,
+                              margin: Platform?.isPad ? 0 : 5,
+                              paddingTop: Platform?.isPad ? 5 : 0,
+                              paddingBottom: Platform?.isPad ? 5 : 0,
+                            }}
+                            mode="outlined"
+                            textColor={COLORS.lightGrey}
+                            onPress={() => setOpenEndTimePicker(true)}>
+                            {moment(endTime).format('LT').toString()}
+                          </Button>
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </>
+              ) : (
+                <>
+                  <View style={{...styles.allDayContainer, height: height / 3}}>
+                    <Text style={{...styles.text, fontSize: FONT_SIZES.h3}}>
+                      Your task will not have a time frame to be completed.
+                    </Text>
+                  </View>
+                </>
+              )}
+
+              <View
+                style={{
+                  ...styles.confirmButtonsContainer,
+                  borderTopWidth: orientation === 'LANDSCAPE' ? 0 : 1,
+                }}>
                 <Button
                   style={{
-                    ...styles.periodButton,
-                    width: Platform?.isPad ? '50%' : '60%',
+                    ...styles.button,
+                    marginRight: 6,
+                    borderWidth: 1,
+                    borderColor: COLORS.lightGrey,
+                  }}
+                  mode="outlined"
+                  textColor={COLORS.lightGrey}
+                  labelStyle={{
+                    fontSize: FONT_SIZES?.text,
+                    margin: Platform?.isPad ? 0 : 5,
+                    paddingTop: Platform?.isPad ? 5 : 0,
+                    paddingBottom: Platform?.isPad ? 5 : 0,
+                  }}
+                  onPress={() => closeModal()}>
+                  Cancel
+                </Button>
+                <Button
+                  style={{
+                    ...styles.button,
+                    backgroundColor: COLORS.lightGreyRGBA,
+                    borderWidth: 0,
                   }}
                   labelStyle={{
                     fontSize: FONT_SIZES?.text,
@@ -253,287 +534,13 @@ const AddTaskModal = ({isTaskModalVisible, setIsTaskModalVisible}) => {
                     paddingBottom: Platform?.isPad ? 5 : 0,
                   }}
                   mode="outlined"
-                  textColor={COLORS?.lightGrey}
-                  onPress={() => setOpenTaskDatePicker(true)}>
-                  {moment(taskDate).format('YYYY-MM-DD')}
+                  textColor={COLORS.primaryColor}
+                  onPress={() => addNewTask()}>
+                  Add
                 </Button>
-                <DatePicker
-                  modal
-                  mode="date"
-                  open={openTaskDatePicker}
-                  date={taskDate}
-                  maximumDate={new Date(dateIn180Days)}
-                  minimumDate={new Date()}
-                  onConfirm={date => {
-                    setOpenTaskDatePicker(false);
-                    setTaskDate(date);
-                  }}
-                  onCancel={() => {
-                    setOpenTaskDatePicker(false);
-                  }}
-                />
-                {validationError ? (
-                  <View>
-                    <Text style={{color: 'red', fontSize: FONT_SIZES?.text}}>
-                      *Please type a title!
-                    </Text>
-                  </View>
-                ) : (
-                  <>
-                    <View>
-                      <Text
-                        style={{
-                          color: COLORS?.lightGrey,
-                          fontSize: FONT_SIZES?.text,
-                        }}>
-                        *Default interval is 1 minute!
-                      </Text>
-                    </View>
-                  </>
-                )}
-
-                <View style={styles?.tabButtonsContainer}>
-                  {tabButtons.map(btn => (
-                    <Button
-                      key={btn?.id}
-                      labelStyle={{
-                        fontSize: FONT_SIZES?.text,
-                        margin: Platform?.isPad ? 0 : 5,
-                        paddingTop: Platform?.isPad ? 5 : 0,
-                        paddingBottom: Platform?.isPad ? 5 : 0,
-                      }}
-                      style={{
-                        ...styles.tabBtn,
-                        backgroundColor:
-                          selectedTab === btn?.id
-                            ? COLORS.lightGreyRGBA
-                            : 'transparent',
-                        borderWidth: selectedTab === btn?.id ? 0 : 1,
-                        borderColor:
-                          selectedTab === btn?.id ? '0' : COLORS.lightGrey,
-                      }}
-                      mode="text"
-                      textColor={
-                        selectedTab === btn?.id
-                          ? COLORS.primaryColor
-                          : COLORS.lightGrey
-                      }
-                      onPress={() => chooseTab(btn?.id)}>
-                      {btn?.text}
-                    </Button>
-                  ))}
-                </View>
-                <View
-                  style={{
-                    width: '100%',
-                    height: 1,
-                    backgroundColor: COLORS.lightGrey,
-                  }}></View>
-                {selectedTab === 0 ? (
-                  <>
-                    <View
-                      style={{
-                        ...styles.periodButtonContainer,
-                        height: height / 3,
-                      }}>
-                      {periodButtonsData.map(btn => (
-                        <Button
-                          key={btn?.id}
-                          labelStyle={{
-                            fontSize: FONT_SIZES?.text,
-                            margin: Platform?.isPad ? 0 : 5,
-                            paddingTop: Platform?.isPad ? 5 : 0,
-                            paddingBottom: Platform?.isPad ? 5 : 0,
-                          }}
-                          style={{
-                            ...styles.periodButton,
-                            backgroundColor:
-                              selectedPeriod === btn?.id
-                                ? COLORS?.lightGreyRGBA
-                                : 'transparent',
-                            borderColor:
-                              selectedPeriod === btn?.id
-                                ? COLORS?.lightGreyRGBA
-                                : COLORS.lightGrey,
-                          }}
-                          mode="outlined"
-                          textColor={
-                            selectedPeriod === btn?.id
-                              ? COLORS?.primaryColor
-                              : COLORS?.lightGrey
-                          }
-                          onPress={() => choosePeriod(btn)}>
-                          {btn?.text}
-                        </Button>
-                      ))}
-                    </View>
-                  </>
-                ) : selectedTab === 1 ? (
-                  <>
-                    <View
-                      style={{...styles.allDayContainer, height: height / 3}}>
-                      <DatePicker
-                        modal
-                        mode="time"
-                        open={openStartTimePicker}
-                        date={startTime}
-                        onConfirm={time => {
-                          setOpenStartTimePicker(false);
-                          setStartTime(time);
-                          setSelectedPeriod(null);
-                        }}
-                        onCancel={() => {
-                          setOpenStartTimePicker(false);
-                        }}
-                      />
-                      <DatePicker
-                        modal
-                        mode="time"
-                        open={openEndTimePicker}
-                        date={endTime}
-                        onConfirm={time => {
-                          setOpenEndTimePicker(false);
-                          setEndTime(time);
-                          setSelectedPeriod(null);
-                        }}
-                        onCancel={() => {
-                          setOpenEndTimePicker(false);
-                        }}
-                      />
-                      <Text
-                        style={{
-                          ...styles.headerText,
-                          paddingTop: 0,
-                          paddingBottom: '5%',
-                        }}>
-                        Choose Start & End Time
-                      </Text>
-                      <Button
-                        style={{
-                          ...styles.noEndTimeButton,
-                          alignSelf: 'center',
-                          backgroundColor:
-                            noEndTime === true
-                              ? COLORS.lightGrey
-                              : 'transparent',
-                        }}
-                        mode="outlined"
-                        textColor={COLORS.lightGrey}
-                        onPress={() => noEndTimeForTask()}>
-                        <Text
-                          style={{
-                            fontSize: FONT_SIZES?.text,
-                            color:
-                              noEndTime === true
-                                ? COLORS.primaryColor
-                                : COLORS.lightGrey,
-                          }}>
-                          No end time{' '}
-                        </Text>
-                      </Button>
-                      <View style={styles.buttonContainer}>
-                        <View style={styles.startEndTimesContainer}>
-                          <Text style={styles.text}>Start Time:</Text>
-                          <Button
-                            style={styles.timeButton}
-                            mode="outlined"
-                            labelStyle={{
-                              fontSize: FONT_SIZES?.text,
-                              margin: Platform?.isPad ? 0 : 5,
-                              paddingTop: Platform?.isPad ? 5 : 0,
-                              paddingBottom: Platform?.isPad ? 5 : 0,
-                            }}
-                            textColor={COLORS.lightGrey}
-                            onPress={() => setOpenStartTimePicker(true)}>
-                            {moment(startTime).format('LT').toString()}
-                          </Button>
-                        </View>
-                        {noEndTime ? (
-                          <>
-                            <View
-                              style={{
-                                height: '30%',
-                              }}>
-                              <Text
-                                style={{
-                                  fontSize: FONT_SIZES?.text,
-                                  color: COLORS?.lightGrey,
-                                }}>
-                                You cannot set the end time!
-                              </Text>
-                            </View>
-                          </>
-                        ) : (
-                          <View style={styles.startEndTimesContainer}>
-                            <Text style={styles.text}>End Time:</Text>
-                            <Button
-                              style={styles.timeButton}
-                              labelStyle={{
-                                fontSize: FONT_SIZES?.text,
-                                margin: Platform?.isPad ? 0 : 5,
-                                paddingTop: Platform?.isPad ? 5 : 0,
-                                paddingBottom: Platform?.isPad ? 5 : 0,
-                              }}
-                              mode="outlined"
-                              textColor={COLORS.lightGrey}
-                              onPress={() => setOpenEndTimePicker(true)}>
-                              {moment(endTime).format('LT').toString()}
-                            </Button>
-                          </View>
-                        )}
-                      </View>
-                    </View>
-                  </>
-                ) : (
-                  <>
-                    <View
-                      style={{...styles.allDayContainer, height: height / 3}}>
-                      <Text style={{...styles.text, fontSize: FONT_SIZES.h3}}>
-                        Your task will not have a time frame to be completed.
-                      </Text>
-                    </View>
-                  </>
-                )}
-
-                <View style={styles.confirmButtonsContainer}>
-                  <Button
-                    style={{
-                      ...styles.button,
-                      marginRight: 6,
-                      borderWidth: 1,
-                      borderColor: COLORS.lightGrey,
-                    }}
-                    mode="outlined"
-                    textColor={COLORS.lightGrey}
-                    labelStyle={{
-                      fontSize: FONT_SIZES?.text,
-                      margin: Platform?.isPad ? 0 : 5,
-                      paddingTop: Platform?.isPad ? 5 : 0,
-                      paddingBottom: Platform?.isPad ? 5 : 0,
-                    }}
-                    onPress={() => closeModal()}>
-                    Cancel
-                  </Button>
-                  <Button
-                    style={{
-                      ...styles.button,
-                      backgroundColor: COLORS.lightGreyRGBA,
-                      borderWidth: 0,
-                    }}
-                    labelStyle={{
-                      fontSize: FONT_SIZES?.text,
-                      margin: Platform?.isPad ? 0 : 5,
-                      paddingTop: Platform?.isPad ? 5 : 0,
-                      paddingBottom: Platform?.isPad ? 5 : 0,
-                    }}
-                    mode="outlined"
-                    textColor={COLORS.primaryColor}
-                    onPress={() => addNewTask()}>
-                    Add
-                  </Button>
-                </View>
               </View>
-            </ImageBackground>
+            </View>
+            {/* </ImageBackground> */}
           </Modal>
         </Portal>
       </View>
@@ -565,6 +572,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: 6,
     paddingRight: 6,
+    backgroundColor: COLORS?.modalBackground,
+    borderRadius: 20,
   },
   headerText: {
     fontSize: FONT_SIZES.h2,

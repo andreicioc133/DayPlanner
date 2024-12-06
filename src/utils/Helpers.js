@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {Platform} from 'react-native';
 import uuid from 'react-native-uuid';
 
 export const addMinutesToDate = (date, value) => {
@@ -14,4 +15,8 @@ export const formatToLocalTime = date => {
 export const createKeyFromDateObject = dateObj => {
   const key = dateObj.toString() + ' ' + uuid.v4();
   return key;
+};
+
+export const renderBasedOnIpadOrientation = (valPortrait, valLandscape) => {
+  return;
 };
