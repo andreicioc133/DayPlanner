@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, ImageBackground, Alert} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Alert,
+  Linking,
+  Platform,
+} from 'react-native';
 import Header from '../../Components/Header';
 import FloatingButton from '../../Components/FloatingButton';
 import HomeScreenPlansContainer from '../../Components/HomeScreenPlansContainer';
@@ -11,61 +18,89 @@ import {
   setObjectData,
 } from '../../utils/StorageFunctions';
 import moment from 'moment';
+import VersionCheck from 'react-native-version-check';
 
 const HomeScreen = () => {
-  const onChangeDeletionAlertKey = async () => {
-    const isKey = await getObjectData('prevention-key');
+  const checkIfUpdateNeeded = async () => {
+    try {
+      const latestVersion =
+        Platform.OS === 'ios'
+          ? await VersionCheck.getLatestVersion({
+              provider: 'appStore', // for iOS
+            })
+          : await VersionCheck.getLatestVersion({
+              provider: 'playstore', // for android
+            });
 
-    if (isKey === true) {
-      return true;
-    } else {
-      await setObjectData('prevention-key', true);
-      return false;
-    }
-  };
+      const currentVersion = VersionCheck.getCurrentVersion();
 
-  const alertTaskDeletionPrevention = async () => {
-    const isKeySetForPrevention = await onChangeDeletionAlertKey();
-
-    if (isKeySetForPrevention) {
-      return;
-    }
-
-    Alert.alert(
-      'Automatic task deletion system',
-      'Tasks older than 3 months will be automatically deleted to keep the application optimized and lightweight!Thank you for your understanding!',
-      [
-        {
-          text: 'Ok',
-          onPress: () => {
-            console.log('Pressed OK!');
-          },
-        },
-      ],
-    );
-  };
-
-  const deleteTasksOlderThan3Months = async () => {
-    const keys = await getAllKeys();
-
-    keys?.map(key => {
-      const dateFromKey = moment(new Date(key.substring(0, 33))).format('L');
-      const date3MonthsEarlier = moment(new Date())
-        .subtract(90, 'days')
-        .format('L');
-      if (dateFromKey < date3MonthsEarlier) {
-        removeValue(key);
+      if (latestVersion > currentVersion) {
         Alert.alert(
-          'Tasks older than 3 months were automatically deleted to keep the application optimized!Thank you for your understanding!',
+          'Update Required',
+          'A new version of the app is available. Please update to continue using the app.',
+          [
+            {
+              text: 'Update Now',
+              onPress: () => {
+                Linking.openURL(
+                  Platform.OS === 'ios'
+                    ? VersionCheck.getAppStoreUrl({
+                        appID: 'org.reactjs.native.example.DayPlanner',
+                      })
+                    : VersionCheck.getPlayStoreUrl({
+                        packageName: 'org.reactjs.native.example.DayPlanner',
+                      }),
+                );
+              },
+            },
+          ],
+          {cancelable: false},
         );
       }
-    });
+    } catch (err) {
+      console.log('err: ', err);
+    }
   };
 
   useEffect(() => {
-    deleteTasksOlderThan3Months();
-    alertTaskDeletionPrevention();
+    checkIfUpdateNeeded();
   }, []);
+
+  // const onChangeDeletionAlertKey = async () => {
+  //   const isKey = await getObjectData('prevention-key');
+
+  //   if (isKey === true) {
+  //     return true;
+  //   } else {
+  //     await setObjectData('prevention-key', true);
+  //     return false;
+  //   }
+  // };
+
+  // const alertTaskDeletionPrevention = async () => {
+  //   const isKeySetForPrevention = await onChangeDeletionAlertKey();
+
+  //   if (isKeySetForPrevention) {
+  //     return;
+  //   }
+
+  //   Alert.alert(
+  //     'Automatic task deletion system',
+  //     'Tasks older than 3 months will be automatically deleted to keep the application optimized and lightweight!Thank you for your understanding!',
+  //     [
+  //       {
+  //         text: 'Ok',
+  //         onPress: () => {
+  //           console.log('Pressed OK!');
+  //         },
+  //       },
+  //     ],
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   alertTaskDeletionPrevention();
+  // }, []);
 
   return (
     <>

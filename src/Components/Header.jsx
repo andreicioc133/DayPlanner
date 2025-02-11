@@ -29,7 +29,7 @@ const Header = () => {
   const [date, setDate] = useState(new Date());
   const [openPicker, setOpenPicker] = useState(false);
 
-  const {setSelectedDate} = useAppContext();
+  const {setSelectedDate, selectedDate} = useAppContext();
 
   return (
     <>
@@ -75,7 +75,7 @@ const Header = () => {
               paddingBottom: Platform?.isPad ? 5 : 0,
             }}
             style={styles.calendarButton}>
-            <Text style={styles.text}>{moment(date).format('L')}</Text>
+            <Text style={styles.text}>{moment(selectedDate).format('L')}</Text>
           </Button>
         </View>
         <View style={styles.textContainer}></View>

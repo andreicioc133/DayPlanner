@@ -1,13 +1,17 @@
 import React, {useState, version} from 'react';
-import {View, Text, StyleSheet, Platform} from 'react-native';
+import {View, Text, StyleSheet, Platform, Alert} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../Screens/HomeScreen/HomeScreen';
 import TutorialScreen from '../Screens/HomeScreen/TutorialScreen';
 import SupportScreen from '../Screens/HomeScreen/SupportScreen';
+import DraftPlansScreen from '../Screens/HomeScreen/DraftPlansScreen';
 import {COLORS, FONT_SIZES} from '../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {version as app_version} from './../../package.json';
+import {deletePreviousTasks} from '../utils/Helpers';
+import moment from 'moment';
+import {useAppContext} from '../Store';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,10 +19,13 @@ export default function DrawerNavigation() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigation = useNavigation();
 
+  const {setSelectedDate} = useAppContext();
+
   const buttonsData = [
     {id: 0, title: 'Home', route: 'Home'},
     {id: 1, title: 'How to', route: 'How to'},
     {id: 2, title: 'Support', route: 'Support'},
+    // {id: 3, title: 'Draft Plans', route: 'Draft Plans'},
   ];
 
   const navigateToScreen = el => {
@@ -59,31 +66,42 @@ export default function DrawerNavigation() {
             paddingLeft: '3%',
             paddingRight: '3%',
             paddingBottom: '10%',
-            alignSelf: 'flex-end',
+            alignSelf: 'center',
+            marginBottom: 10,
           }}>
-          <Text
+          <TouchableOpacity
             style={{
-              color: COLORS?.lightGrey,
-              fontSize: FONT_SIZES?.text,
-              textAlign: 'left',
-              paddingLeft: '3%',
-              paddingRight: '3%',
-            }}>
-            Tasks older than 3 months will be automatically deleted to keep the
-            application optimized and lightweight.
-          </Text>
-
-          <Text
-            style={{
-              color: COLORS?.lightGrey,
-              fontSize: FONT_SIZES?.text,
-              textAlign: 'left',
-              paddingLeft: '3%',
-              paddingRight: '3%',
-              marginBottom: '10%',
-            }}>
-            Thank you for your understanding!
-          </Text>
+              ...styles?.button,
+              backgroundColor: 'transparent',
+              marginBottom: 10,
+            }}
+            onPress={() =>
+              Alert.alert(
+                'Delete all past plans',
+                `are you sure you want to delete all the plans created up to the date of ${moment(
+                  new Date(),
+                )
+                  .subtract(1, 'days')
+                  .format('L')} ?`,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Yes',
+                    onPress: () => {
+                      deletePreviousTasks();
+                      setSelectedDate(new Date());
+                      props.navigation.closeDrawer();
+                    },
+                  },
+                ],
+              )
+            }>
+            <Text style={styles?.buttonText}>Delete all past plans</Text>
+          </TouchableOpacity>
           <Text
             style={{
               color: COLORS?.lightGrey,
@@ -115,6 +133,11 @@ export default function DrawerNavigation() {
       <Drawer.Screen name="Home" component={HomeScreen} options={{}} />
       <Drawer.Screen name="How to" component={TutorialScreen} options={{}} />
       <Drawer.Screen name="Support" component={SupportScreen} options={{}} />
+      {/* <Drawer.Screen
+        name="Draft Plans"
+        component={DraftPlansScreen}
+        options={{}}
+      /> */}
     </Drawer.Navigator>
   );
 }
